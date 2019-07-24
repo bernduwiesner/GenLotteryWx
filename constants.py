@@ -5,17 +5,13 @@
 """Lottery generator using wxPython
 """
 from pathlib import Path
-import wx
+from typing import Dict, List
 
-VERSION = "0.0.1"
-AUTHOR = "Bernd U. Wiesner"
-PROGRAM = "Lottery Generator wx"
+VERSION: str = "0.0.1"
+AUTHOR: str = "Bernd U. Wiesner"
+PROGRAM: str = "Lottery Generator wx"
 
-ID_MENU_ABOUT = wx.NewIdRef()
-ID_MENU_EXIT = wx.NewIdRef()
-ID_LOTTERY_TYPE = wx.NewIdRef()
-
-LOTTERY_CHOICES = [
+LOTTERY_CHOICES: List[str] = [
     "LOTTO",
     "EUROMILLIONS",
     "SETFORLIFE",
@@ -23,15 +19,15 @@ LOTTERY_CHOICES = [
     "EUROMILLIONS-HOTPICKS",
     "THUNDERBALL",
 ]
-LOTTERY_DICT = {k: v for k, v in enumerate(LOTTERY_CHOICES)}
-LOTTERY_DEFAULT = 1
+LOTTERY_DICT: Dict[int, str] = {k: v for k, v in enumerate(LOTTERY_CHOICES)}
+LOTTERY_DEFAULT: int = 1
 
-OPTIONS_CHOICES = ["Save", "No Save", "Show", "Delete"]
-OPTIONS_DICT = {k: v for k, v in enumerate(OPTIONS_CHOICES)}
+OPTIONS_CHOICES: List[str] = ["Save", "No Save", "Show", "Delete"]
+OPTIONS_DICT: Dict[int, str] = {k: v for k, v in enumerate(OPTIONS_CHOICES)}
 OPTIONS_DEFAULT = 1
 
 # Rules for each type of lottery
-RULES: {str: [int, int, int, int]} = {
+RULES: Dict[str, List[int]] = {
     # lottery_type: [main_max, main_qty, extra_max, extra_qty]
     LOTTERY_CHOICES[0]: [60, 6, False, False],
     LOTTERY_CHOICES[1]: [51, 5, 13, 2],
@@ -59,7 +55,7 @@ SAVE_FILE_DIR: str = str(Path.home()) + "/lottery-db/"
 SAVE_FILE_TYPE: str = ".db"
 
 # a dictionary of shelf keys
-SHELF_ARGS: {str, str} = {
+SHELF_ARGS: Dict[str, str] = {
     # dictionary key: shelf namespace key
     "DATE": "d",
     "TYPE": "t",
@@ -73,7 +69,7 @@ SHELF_PROTOCOL: int = 4
 SHELF_READONLY: str = "r"
 
 # date display format
-DATE_FORMAT = "%A %d %B %Y at %X %Z"
+DATE_FORMAT: str = "%A %d %B %Y at %X %Z"
 
-FONT_POINT_SIZE = 14
-FONT_FACE = "Helvetica"
+FONT_POINT_SIZE: int = 14
+FONT_FACE: str = "Helvetica"

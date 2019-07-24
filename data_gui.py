@@ -14,7 +14,7 @@ class ResultsFrame(wx.Frame):
     """Data window of lottery generator
     """
 
-    def __init__(self, parent, results) -> None:
+    def __init__(self, parent, results: ResultsData) -> None:
         wx.Frame.__init__(
             self,
             parent,
@@ -54,8 +54,8 @@ class ResultsFrame(wx.Frame):
         grid = wx.GridBagSizer(vgap=0, hgap=0)
         grid.SetFlexibleDirection(direction=wx.BOTH)
         grid.SetNonFlexibleGrowMode(mode=wx.FLEX_GROWMODE_SPECIFIED)
-        action = "Generated " if results.generated else "Stored "
-        label = action + results.lottery_type_name + " Lottery numbers: "
+        action: str = "Generated " if results.generated else "Stored "
+        label: str = action + results.lottery_type_name + " Lottery numbers: "
         choice_text = wx.StaticText(
             self,
             id=wx.ID_ANY,
@@ -65,9 +65,9 @@ class ResultsFrame(wx.Frame):
             style=0,
         )
         choice_text.Wrap(width=-1)
-        flags = wx.ALIGN_CENTER_VERTICAL | wx.ALL
+        flags: int = wx.ALIGN_CENTER_VERTICAL | wx.ALL
         span = wx.GBSpan(rowspan=1, colspan=1)
-        border = 5
+        border: int = 5
         grid.Add(
             choice_text,
             pos=wx.GBPosition(row=1, col=1),
@@ -76,9 +76,9 @@ class ResultsFrame(wx.Frame):
             border=border,
         )
 
-        line = 0
-        for line in range(results.number_of_lines):
-            text = f"Line {line + 1}: " + results.data[line]
+        line: int = 0
+        for line in range(results.get_data_length()):
+            text: str = f"Line {line + 1}: " + results.get_data_item(line)
             control = wx.StaticText(
                 self,
                 id=wx.ID_ANY,
@@ -111,7 +111,7 @@ class ResultsFrame(wx.Frame):
             border=border,
         )
 
-        if not results.generated:
+        if results.is_retrieved():
             info.SetLabelText("Saved on " + results.stored_date)
         else:
             info.SetLabelText("")
@@ -122,7 +122,7 @@ class ResultsFrame(wx.Frame):
         button_sizer.Realize()
         grid.Add(
             button_sizer,
-            pos=wx.GBPosition(row=results.number_of_lines + 3, col=1),
+            pos=wx.GBPosition(row=results.get_data_length() + 3, col=1),
             span=wx.GBSpan(rowspan=1, colspan=2),
             flag=wx.ALIGN_CENTER_HORIZONTAL,
             border=5,
@@ -130,7 +130,10 @@ class ResultsFrame(wx.Frame):
         self.SetSizer(grid)
 
         self.Bind(
-            event=wx.EVT_BUTTON, handler=self.on_ok, source=ok_button, id=wx.ID_OK
+            event=wx.EVT_BUTTON,
+            handler=self.on_ok,
+            source=ok_button,
+            id=wx.ID_OK,
         )
 
     def on_ok(self, event) -> None:

@@ -5,6 +5,7 @@
 """Lottery generator common classes using wxPython
 """
 import dataclasses
+from typing import Union
 import constants as C
 
 
@@ -41,34 +42,52 @@ class ResultsData:
     # generated is True if generated or
     # False if retrieved from file
     generated: bool = True
-    number_of_lines = 0
+    number_of_lines: int = 0
     stored_date: str = None
     lottery_type_name: str = ""
     data = []
 
-    def get_data_line(self, line: int) -> str:
-        """Get one item from data
-
-        :param line: int index of the data to retrieve
-        :return: str  a line of data results
-        """
-        if line and line < self.number_of_lines:
-            return self.data[line]
-        return ""
-
-    def set_data_line(self, newdata: str) -> None:
-        """Append data to a list
-
-        :param newdata: str the data to save
-        :return: None
-        """
-        if newdata is not None:
-            self.data.append(newdata)
-
-    def clear_data(self) -> None:
-        """Remove existing data results
+    @classmethod
+    def clear_data(cls) -> None:
+        """Remove all data items
 
         :return: None
         """
-        length = len(self.data)
-        del self.data[range[0: length]]
+        del cls.data[: cls.get_data_length()]
+
+    @classmethod
+    def is_retrieved(cls) -> bool:
+        """Does the data come from a file
+
+        :return: bool True if the data was returned from a saved file
+        """
+        return not cls.generated
+
+    @classmethod
+    def get_data_length(cls) -> int:
+        """Return the number of results
+
+        :return: the number of results in memory
+        """
+        return len(cls.data)
+
+    @classmethod
+    def get_data_item(cls, item: int) -> Union[str, None]:
+        """Return a item of data
+
+        :param item: the index of the required data
+        :return: a string if valid data is held or None if not
+        """
+        if item < 0 or item > len(cls.data):
+            return None
+        return cls.data[item]
+
+    @classmethod
+    def set_data_item(cls, result: str) -> None:
+        """Add a dat item to the list of results
+
+        :param result: the data to append to the list of results
+        :return: None
+        """
+        if result is not None:
+            cls.data.append(result)

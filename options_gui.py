@@ -16,6 +16,10 @@ class MainFrame(wx.Frame):
     """Main window of lottery generator
     """
 
+    ID_MENU_ABOUT: wx.WindowIDRef = wx.NewIdRef()
+    ID_MENU_EXIT: wx.WindowIDRef = wx.NewIdRef()
+    ID_LOTTERY_TYPE: wx.WindowIDRef = wx.NewIdRef()
+
     options_data = OptionsData
 
     def __init__(self, parent):
@@ -59,7 +63,7 @@ class MainFrame(wx.Frame):
 
         exit_menu_item = wx.MenuItem(
             parentMenu=file_menu,
-            id=C.ID_MENU_EXIT,
+            id=self.ID_MENU_EXIT,
             text=u"E&xit",
             helpString=wx.EmptyString,
             kind=wx.ITEM_NORMAL,
@@ -70,7 +74,7 @@ class MainFrame(wx.Frame):
         help_menu = wx.Menu()
         about_menu_item = wx.MenuItem(
             parentMenu=help_menu,
-            id=C.ID_MENU_ABOUT,
+            id=self.ID_MENU_ABOUT,
             text=u"&About",
             helpString=wx.EmptyString,
             kind=wx.ITEM_NORMAL,
@@ -111,7 +115,7 @@ class MainFrame(wx.Frame):
 
         lottery_combo = wx.ComboBox(
             self,
-            id=C.ID_LOTTERY_TYPE,
+            id=self.ID_LOTTERY_TYPE,
             value=C.LOTTERY_CHOICES[opt.lottery_type],
             pos=wx.DefaultPosition,
             size=wx.DefaultSize,
@@ -203,7 +207,7 @@ class MainFrame(wx.Frame):
 
         self.SetSizer(grid)
         lottery_combo.Bind(
-            event=wx.EVT_COMBOBOX, handler=self.on_type_combo, id=C.ID_LOTTERY_TYPE
+            event=wx.EVT_COMBOBOX, handler=self.on_type_combo, id=self.ID_LOTTERY_TYPE
         )
         self.Bind(
             event=intctrl.EVT_INT, handler=self.on_line_control, source=lines_control
@@ -222,7 +226,7 @@ class MainFrame(wx.Frame):
     def make_status_bar(self):
         """Make the statusbar
         """
-        __style__ = wx.STB_DEFAULT_STYLE | wx.STB_SIZEGRIP | wx.ALWAYS_SHOW_SB
+        __style__: str = wx.STB_DEFAULT_STYLE | wx.STB_SIZEGRIP | wx.ALWAYS_SHOW_SB
         main_status_bar = self.CreateStatusBar(
             number=1, style=__style__, id=wx.ID_ANY, name=wx.StatusBarNameStr
         )
