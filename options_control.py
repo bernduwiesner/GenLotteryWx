@@ -13,8 +13,8 @@ import wx
 import wx.adv
 import constants as C
 import options_gui
-from common import OptionsData
-from data_gui import ResultsData, ResultsFrame
+from common import OptionsData, ResultsData
+from data_gui import ResultsFrame
 
 
 class GenLotteryMainFrame(options_gui.MainFrame):
@@ -31,7 +31,6 @@ class GenLotteryMainFrame(options_gui.MainFrame):
 
     def update_status(self, text=None) -> None:
         """Utility function used to update the status bar
-
         :param text: text to display
         :return: None
         """
@@ -101,13 +100,11 @@ class GenLotteryMainFrame(options_gui.MainFrame):
 
     def generate_numbers(self) -> None:
         """Generate several random numbers and optionally save them
-
         :return:
         """
 
         def add_leading_zero(values: []) -> []:
             """Add a leading zero to numbers in the list < 10
-
             :param values: list of numbers
             :return: array containing formatted numbers
             """
@@ -115,7 +112,6 @@ class GenLotteryMainFrame(options_gui.MainFrame):
 
         def choose_numbers(maximum: int, quantity: int) -> []:
             """Generate the random numbers required
-
             :param maximum: the highest number to choose from
             :param quantity: the number of numbers to generate
             :return: a sorted list of generated numbers
@@ -124,6 +120,9 @@ class GenLotteryMainFrame(options_gui.MainFrame):
             return add_leading_zero(sorted(sample(valid_range, quantity)))
 
         result = ResultsData
+        length = len(result.data)
+        del result.data[:length]
+
         opt = self.options_data
         result.lottery_type_name = opt.get_lottery_name()
         result.number_of_lines = opt.number_of_lines
@@ -188,7 +187,6 @@ class GenLotteryMainFrame(options_gui.MainFrame):
 
     def delete_saved_file(self) -> None:
         """Delete a previously saved file
-
         :return: None
         """
         # add the filename extension
@@ -203,7 +201,6 @@ class GenLotteryMainFrame(options_gui.MainFrame):
 
     def show_saved(self) -> None:
         """Display a previously generated and saved batch of numbers
-
         :return: None
         """
         opt = self.options_data
@@ -215,6 +212,9 @@ class GenLotteryMainFrame(options_gui.MainFrame):
                                 protocol=C.SHELF_PROTOCOL)
             save_time = time.localtime(shelf[C.SHELF_ARGS['DATE']])
             result = ResultsData
+            length = len(result.data)
+            del result.data[:length]
+
             result.saved = False
             result.generated = False
             result.lottery_type_name = opt.get_lottery_name()

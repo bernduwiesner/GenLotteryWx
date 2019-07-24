@@ -12,6 +12,7 @@ import constants as C
 class OptionsData:
     """Options store
     """
+
     lottery_type: int = C.LOTTERY_DEFAULT
     number_of_lines: int = 2
     option: int = C.OPTIONS_DEFAULT
@@ -35,13 +36,14 @@ class OptionsData:
 class ResultsData:
     """Data to be passed to the results display frame
     """
+
     saved: bool = False
     # generated is True if generated or
     # False if retrieved from file
     generated: bool = True
     number_of_lines = 0
     stored_date: str = None
-    lottery_type_name: str = ''
+    lottery_type_name: str = ""
     data = []
 
     def get_data_line(self, line: int) -> str:
@@ -52,7 +54,7 @@ class ResultsData:
         """
         if line and line < self.number_of_lines:
             return self.data[line]
-        return ''
+        return ""
 
     def set_data_line(self, newdata: str) -> None:
         """Append data to a list
@@ -62,3 +64,11 @@ class ResultsData:
         """
         if newdata is not None:
             self.data.append(newdata)
+
+    def clear_data(self) -> None:
+        """Remove existing data results
+
+        :return: None
+        """
+        length = len(self.data)
+        del self.data[range[0: length]]
