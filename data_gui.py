@@ -14,7 +14,7 @@ class ResultsFrame(wx.Frame):
     """Data window of lottery generator
     """
 
-    def __init__(self, parent, results: ResultsData) -> None:
+    def __init__(self, parent, results) -> None:
         wx.Frame.__init__(
             self,
             parent,
@@ -51,6 +51,14 @@ class ResultsFrame(wx.Frame):
         :return:
         """
 
+        def unwrap(some: str) -> str:
+            """Remove characters "[". "]" and "'" from a string
+
+            :param some: str the string to process
+            :return:
+            """
+            return some.translate({ord(i): None for i in "[]'"})
+
         grid = wx.GridBagSizer(vgap=0, hgap=0)
         grid.SetFlexibleDirection(direction=wx.BOTH)
         grid.SetNonFlexibleGrowMode(mode=wx.FLEX_GROWMODE_SPECIFIED)
@@ -78,7 +86,8 @@ class ResultsFrame(wx.Frame):
 
         line: int = 0
         for line in range(results.get_data_length()):
-            text: str = f"Line {line + 1}: " + results.get_data_item(line)
+            data_item = unwrap(results.get_data_item(line))
+            text: str = f"Line {line + 1}: " + data_item
             control = wx.StaticText(
                 self,
                 id=wx.ID_ANY,
